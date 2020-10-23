@@ -49,7 +49,7 @@ def _accumulate_predictions_from_multiple_gpus(predictions_per_gpu):
     # convert a dict where the key is the index in a list
     image_ids = list(sorted(predictions.keys()))
     if len(image_ids) != image_ids[-1] + 1:
-        logger = logging.getLogger("fcos_core.inference")
+        logger = logging.getLogger("fad_core.inference")
         logger.warning(
             "Number of images that were gathered from multiple processes is not "
             "a contiguous set. Some images might be missing from the evaluation"

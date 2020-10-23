@@ -46,7 +46,7 @@ def do_train(
     checkpoint_period,
     arguments,
 ):
-    logger = logging.getLogger("fcos_core.trainer")
+    logger = logging.getLogger("fad_core.trainer")
 
     mb_params = utils_fad.param_size(model) 
     logger.info("Model size = {:.2f} MB".format(mb_params))
