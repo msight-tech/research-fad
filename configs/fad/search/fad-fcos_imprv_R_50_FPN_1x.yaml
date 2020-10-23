@@ -1,0 +1,55 @@
+# Copyright (c) Malong LLC
+# All rights reserved.
+#
+# Contact: github@malongtech.com
+#
+# This source code is licensed under the LICENSE file in the root directory of this source tree.
+
+MODEL:
+  META_ARCHITECTURE: "GeneralizedRNAS"
+  WEIGHT: "catalog://ImageNetPretrained/MSRA/R-50"
+  RPN_ONLY: True
+  FAD_ON: True
+  FCOS_ON: True
+  BACKBONE:
+    CONV_BODY: "R-50-FPN-RETINANET"
+    FREEZE_CONV_BODY_AT: 2
+  RESNETS:
+    BACKBONE_OUT_CHANNELS: 256
+  RETINANET:
+    USE_C5: False # FCOS uses P5 instead of C5
+  FCOS:
+    # normalizing the regression targets with FPN strides  
+    NORM_REG_TARGETS: True
+    CENTERNESS_ON_REG: True
+    CENTER_SAMPLING_RADIUS: 1.5
+    IOU_LOSS_TYPE: "giou"
+  FAD:
+    PLOT: True
+    SEARCH: True
+    CLSTOWER: True
+    NUM_CELLS_CLS: 1
+    NUM_NODES_CLS: 3
+    NUM_CHANNELS_CLS: 96
+    BOXTOWER: True
+    NUM_CELLS_BOX: 1
+    NUM_NODES_BOX: 3
+    NUM_CHANNELS_BOX: 96
+DATASETS:
+  TRAIN: ("voc_2012_train", "voc_2012_val") 
+  TEST: ("voc_2012_test",)
+
+INPUT:
+  MIN_SIZE_TRAIN: (416,)
+  MAX_SIZE_TRAIN: 693
+  MIN_SIZE_TEST: 800
+  MAX_SIZE_TEST: 1333
+DATALOADER:
+  SIZE_DIVISIBILITY: 32
+SOLVER:
+  BASE_LR: 0.004 
+  WEIGHT_DECAY: 0.0001 
+  STEPS: (12500, )  
+  MAX_ITER: 17500 
+  CHECKPOINT_PERIOD: 2500
+  IMS_PER_BATCH: 4
